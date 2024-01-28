@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+#part_first{
+	display: flex;
+	width: 1200px;
+	height: 600px;
+}
+
+.part_first_image{
+	width: 50%;
+	float: left;
+	border-left: none;
+}
+
+.part_first_detail{
+	width: 50%;
+	float: right;
+	border-left: none;
+}
