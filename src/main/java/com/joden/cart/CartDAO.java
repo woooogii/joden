@@ -1,4 +1,4 @@
-package com.joden;
+package com.joden.cart;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -61,16 +61,15 @@ public class CartDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql;
 
 		try {
 
-			sql = "SELECT b.productName,b.userId,b.cartAmount,";
-			sql+= "b.Price, b.imgSaveFileName FROM CART ";
-			sql+= "b INNER JOIN PRODUCTINFO p ON b.productName ";
-			sql+= "= p.productName WHERE b.productName=?";
+//			String sql = "SELECT b.productName,b.userId,b.cartAmount,";
+//			sql+= "b.Price, b.imgSaveFileName FROM CART ";
+//			sql+= "b INNER JOIN PRODUCTINFO p ON b.productName ";
+//			sql+= "= p.productName WHERE b.productName=?";
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(CartSqlMapper.GET_READ_CART_DATA_SQL);
 
 			pstmt.setString(1, productName);
 
@@ -102,13 +101,13 @@ public class CartDAO {
 		int result = 0;
 
 		PreparedStatement pstmt = null;
-		String sql;
+	
 
 		try {
 
-			sql = "delete CART where productName=?";
+//			String sql = "delete CART where productName=?";
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(CartSqlMapper.DELETE_CART_SQL);
 
 			pstmt.setString(1, productName);
 
@@ -129,13 +128,13 @@ public class CartDAO {
 		int result = 0;
 
 		PreparedStatement pstmt = null;
-		String sql;
+	
 
 		try {
 
-			sql = "update CART set cartAmount=? where productName=?";
+//			String sql = "update CART set cartAmount=? where productName=?";
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(CartSqlMapper.UPDATE_CART_SQL);
 
 			pstmt.setInt(1, dto.getCartAmount());
 			pstmt.setString(2, dto.getProductName());
@@ -154,12 +153,11 @@ public class CartDAO {
 
 	public boolean isCart(String userId) {
 
-		CartDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select * from joden.cart where userId=?";
+//		String sql = "select * from joden.cart where userId=?";
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(CartSqlMapper.IS_CART_SQL);
 			pstmt.setString(1, userId);
 
 			rs = pstmt.executeQuery();
@@ -180,11 +178,11 @@ public class CartDAO {
 	public int insertCart(CartDTO dto) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = "insert into joden.cart (userId,productNum) values(?,?)";
+//		String sql = "insert into joden.cart (userId,productNum) values(?,?)";
 		
 		try {
 			
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(CartSqlMapper.INSERT_CART_SQL);
 			
 			pstmt.setString(1, dto.getUserId());
 			pstmt.setInt(2, dto.getProductNum());
@@ -203,9 +201,12 @@ public class CartDAO {
 		List<CartDTO> cartList = new ArrayList<CartDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select p.* from (select @rownum := @rownum + 1 rnum, data.* from (select c.cartId, p.productName, p.price, p.imgSaveFileName from joden.cart c INNER JOIN joden.PRODUCTINFO p on c.productName = p.productName WHERE userId = ?) as data) as p where rnum>=? and rnum<=?";
+
+//		String sql = "select p.* from (select @rownum := @rownum + 1 rnum, data.* from (select c.cartId, p.productName, p.price, p.imgSaveFileName from joden.cart c INNER JOIN joden.PRODUCTINFO p on c.productNum = p.productNum WHERE userId = ?) as data) as p where rnum>=? and rnum<=?";
 		try {
-			pstmt = conn.prepareStatement(sql);
+			
+
+			pstmt = conn.prepareStatement(CartSqlMapper.GET_CART_LIST_SQL);
 			pstmt.setString(1, userId);
 			pstmt.setInt(2, start);
 			pstmt.setInt(3, end);
@@ -236,12 +237,11 @@ public class CartDAO {
 		int dataCount = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql;
 
 		try {
 
-			sql = "select ifnull(count(*),0) from joden.CART where userId = ?";
-			pstmt = conn.prepareStatement(sql);
+//			String sql = "select ifnull(count(*),0) from joden.CART where userId = ?";
+			pstmt = conn.prepareStatement(CartSqlMapper.GET_CART_DATA_COUNT_SQL);
 			pstmt.setString(1, userId);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -264,11 +264,11 @@ public class CartDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select ifnull(max(cartId),0) from joden.cart";
+//		String sql = "select ifnull(max(cartId),0) from joden.cart";
 
 		try {
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(CartSqlMapper.GET_CART_ID_SQL);
 
 			rs = pstmt.executeQuery();
 
@@ -292,11 +292,11 @@ public class CartDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select ifnull(max(cartAmount),0) from joden.cart";
+//		String sql = "select ifnull(max(cartAmount),0) from joden.cart";
 
 		try {
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(CartSqlMapper.GET_CART_AMOUNT_SQL);
 
 			rs = pstmt.executeQuery();
 

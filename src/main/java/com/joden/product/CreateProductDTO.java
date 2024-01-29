@@ -1,4 +1,4 @@
-package com.joden;
+package com.joden.product;
 
 public class CreateProductDTO {
 	

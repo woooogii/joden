@@ -1,4 +1,4 @@
-package com.joden;
+package com.joden.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,12 +17,12 @@ public class UserDAO {
 		int result = 0;
 
 		PreparedStatement pstmt = null;
-		String sql;
+
 		try {
 
-			sql = "insert into USERINFO values (?,?,?,?,?,?,?,?,now())";
+//			String sql = "insert into USERINFO values (?,?,?,?,?,?,?,?,now())";
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(UserSqlMapper.INSERT_DATA_SQL);
 			pstmt.setString(1, dto.getUserId());
 			pstmt.setString(2, dto.getUserPwd());
 			pstmt.setString(3, dto.getUserName());
@@ -47,13 +47,13 @@ public class UserDAO {
 		UserDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql;
+
 
 		try {
 
-			sql = "select * from joden.USERINFO where userId=?";
+//			String sql = "select * from joden.USERINFO where userId=?";
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(UserSqlMapper.GET_READ_DATA_SQL);
 			pstmt.setString(1, userId);
 			rs = pstmt.executeQuery();
 
@@ -83,13 +83,13 @@ public class UserDAO {
 		UserDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql;
+
 
 		try {
 
-			sql = "select userId from joden.USERINFO where userTel=? and userEmail=?";
+//			String sql = "select userId from joden.USERINFO where userTel=? and userEmail=?";
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(UserSqlMapper.GET_READ_DATA1_SQL);
 			pstmt.setString(1, userTel);
 			pstmt.setString(2, userEmail);
 
@@ -113,13 +113,12 @@ public class UserDAO {
 		UserDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql;
 
 		try {
 
-			sql = "select userPwd from joden.USERINFO where userId=? and userEmail=?";
+//			String sql = "select userPwd from joden.USERINFO where userId=? and userEmail=?";
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(UserSqlMapper.GET_READ_DATA2_SQL);
 			pstmt.setString(1, userId);
 			pstmt.setString(2, userEmail);
 
@@ -144,13 +143,13 @@ public class UserDAO {
 		int result = 0;
 
 		PreparedStatement pstmt = null;
-		String sql;
+		
 
 		try {
 
-			sql = "update joden.USERINFO set userPwd=?,userName=?,userEmail=?,userTel=?,userGender=?,userAddr=?,userBirth=? where userId=?";
+//			String sql = "update joden.USERINFO set userPwd=?,userName=?,userEmail=?,userTel=?,userGender=?,userAddr=?,userBirth=? where userId=?";
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(UserSqlMapper.UPDATE_DATA_SQL);
 
 			pstmt.setString(1, dto.getUserPwd());
 			pstmt.setString(2, dto.getUserName());
@@ -175,13 +174,13 @@ public class UserDAO {
 		UserDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql;
+		
 
 		try {
 
-			sql = "select userId from joden.USERINFO where userTel=? and userEmail=?";
+//			String sql = "select userId from joden.USERINFO where userTel=? and userEmail=?";
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(UserSqlMapper.FORGOT_ID_SQL);
 			pstmt.setString(1, userTel);
 			pstmt.setString(2, userEmail);
 

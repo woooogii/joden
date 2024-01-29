@@ -1,4 +1,4 @@
-package com.joden;
+package com.joden.order;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,13 +52,12 @@ public  List<OrderDTO> getOrderLists(int start,int end){
 	
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	String sql;
 	
 	try {
 		
-		sql = "select p.* from (select row_number() over(order by orderNum desc) rnum,data.* from (select productName,userId,payWay,orderAmount,totalPrice,orderNum,DATE_FORMAT(orderDate,'YYYY-MM-DD') orderDate,imgSaveFileName from joden.ORDERLIST)as data) as p where rnum>=? and rnum<=?";
+//		String sql = "select p.* from (select row_number() over(order by orderNum desc) rnum,data.* from (select productName,userId,payWay,orderAmount,totalPrice,orderNum,DATE_FORMAT(orderDate,'YYYY-MM-DD') orderDate,imgSaveFileName from joden.ORDERLIST)as data) as p where rnum>=? and rnum<=?";
 		
-		pstmt = conn.prepareStatement(sql);
+		pstmt = conn.prepareStatement(OrderSqlMapper.GET_ORDER_LISTS_SQL);
 
 		pstmt.setInt(1, start);
 		pstmt.setInt(2, end);
@@ -97,13 +96,13 @@ public OrderDTO getReadOrderData(int orderNum) {
 	
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	String sql;
+
 	
 	try {
 		
-		sql = "select * from joden.ORDERLIST where orderNum=?";
+//		String sql = "select * from joden.ORDERLIST where orderNum=?";
 		
-		pstmt = conn.prepareStatement(sql);
+		pstmt = conn.prepareStatement(OrderSqlMapper.GET_READ_ORDER_DATA_SQL);
 		
 		pstmt.setInt(1, orderNum);
 		
@@ -138,13 +137,12 @@ public int deleteDataOrderList(int orderNum) {
 	int result = 0;
 	
 	PreparedStatement pstmt = null;
-	String sql;
 	
 	try {
 		
-		sql = "delete from joden.ORDERLIST where orderNum=?";
+//		String sql = "delete from joden.ORDERLIST where orderNum=?";
 		
-		pstmt = conn.prepareStatement(sql);
+		pstmt = conn.prepareStatement(OrderSqlMapper.DELETE_DATA_ORDER_LIST_SQL);
 
 		pstmt.setInt(1, orderNum);
 		

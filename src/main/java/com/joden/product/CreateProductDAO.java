@@ -1,4 +1,4 @@
-package com.joden;
+package com.joden.product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,11 +21,11 @@ public class CreateProductDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "insert into joden.PRODUCTINFO values (?,?,?,?,?,?,?,?)";
+//		String sql = "insert into joden.PRODUCTINFO values (?,?,?,?,?,?,?,?)";
 
 		try {
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(ProductSqlMapper.INSERT_PRODUCT_SQL);
 
 			pstmt.setInt(1, dto.getProductNum());
 			pstmt.setString(2, dto.getProductName());
@@ -68,9 +68,11 @@ public class CreateProductDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select p.* from (select row_number() over(order by productNum desc)as rnum,data.* from (select * from joden.PRODUCTINFO where productName like ? or category like ?) as data) as p where rnum>=? and rnum <=?;";
+		
+//		String sql = "select p.* from (select row_number() over(order by productNum desc)as rnum,data.* from (select * from joden.PRODUCTINFO where productName like ? or category like ?) as data) as p where rnum>=? and rnum <=?;";
+		
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(ProductSqlMapper.ALL_PRODUCT_LIST_SQL);
 			pstmt.setString(1, "%" + searchValue + "%");
 			pstmt.setString(2, "%" + searchValue + "%");
 			pstmt.setInt(3, start);
@@ -108,10 +110,10 @@ public class CreateProductDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select p.* from (select row_number() over(order by productNum desc)as rnum,data.* from (select * from joden.PRODUCTINFO where category =?) as data) as p where rnum>=? and rnum <=?";
+//		String sql = "select p.* from (select row_number() over(order by productNum desc)as rnum,data.* from (select * from joden.PRODUCTINFO where category =?) as data) as p where rnum>=? and rnum <=?";
 		try {
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(ProductSqlMapper.CATE_PRODUCT_LIST_SQL);
 
 			pstmt.setString(1, category);
 			pstmt.setInt(2, start);
@@ -148,10 +150,10 @@ public class CreateProductDAO {
 		CreateProductDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select * from joden.PRODUCTINFO where productNum=?";
+//		String sql = "select * from joden.PRODUCTINFO where productNum=?";
 
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(ProductSqlMapper.GET_READ_PRODUCT_SQL);
 			pstmt.setInt(1, productNum);
 			rs = pstmt.executeQuery();
 
@@ -186,11 +188,11 @@ public class CreateProductDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select ifnull(max(productNum),0) from joden.PRODUCTINFO";
+//		String sql = "select ifnull(max(productNum),0) from joden.PRODUCTINFO";
 
 		try {
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(ProductSqlMapper.GET_ALL_PRODUCT_MAXNUM_SQL);
 
 			rs = pstmt.executeQuery();
 
@@ -214,11 +216,11 @@ public class CreateProductDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select ifnull(count(*),0) from joden.PRODUCTINFO where productName like ? or category like ?";
+//		String sql = "select ifnull(count(*),0) from joden.PRODUCTINFO where productName like ? or category like ?";
 
 		try {
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(ProductSqlMapper.GET_ALL_DATA_COUNT_SQL);
 			pstmt.setString(1, "%" + searchValue + "%");
 			pstmt.setString(2, "%" + searchValue + "%");
 			rs = pstmt.executeQuery();
@@ -241,11 +243,11 @@ public class CreateProductDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select ifnull(count(*),0) from (select * from joden.PRODUCTINFO where category = ?) as p";
+//		String sql = "select ifnull(count(*),0) from (select * from joden.PRODUCTINFO where category = ?) as p";
 
 		try {
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(ProductSqlMapper.GET_CATEGORY_DATA_COUNT_SQL);
 			pstmt.setString(1, category);
 
 			rs = pstmt.executeQuery();
@@ -267,11 +269,11 @@ public class CreateProductDAO {
 		int result = 0;
 		
 		PreparedStatement pstmt = null;
-		String sql = "delete from joden.PRODUCTINFO where productNum = ?";
+//		String sql = "delete from joden.PRODUCTINFO where productNum = ?";
 		
 		try {
 			
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(ProductSqlMapper.DELETE_DATA_SQL);
 			pstmt.setInt(1, productNum);
 			
 			result = pstmt.executeUpdate();

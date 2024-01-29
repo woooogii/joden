@@ -1,4 +1,4 @@
-package com.joden;
+package com.joden.order;
 
 public class OrderDTO {
 	
